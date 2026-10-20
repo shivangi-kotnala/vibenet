@@ -1,3 +1,4 @@
+from pathlib import Path
 import json, random, numpy as np, pandas as pd
 import plotly.express as px, plotly.graph_objects as go, streamlit as st
 
@@ -7,8 +8,11 @@ COLS = ["id", "country", "tribe", "friends", "pagerank", "betweenness", "cross",
 
 @st.cache_data
 def load():
-    D = json.load(open("data/vibenet.json")); df = pd.DataFrame(D["nodes"], columns=COLS)
-    df["tribe"] = df.tribe.map(lambda i: f"Tribe {i+1}" if i < 8 else "Other"); df["country"] = "Country " + df.country.astype(str).str.zfill(2)
+    data_file = Path(__file__).resolve().parent / "vibenet.json"
+with data_file.open("r", encoding="utf-8") as f:
+    D = json.load(f)
+df = pd.DataFrame(D["nodes"], columns=COLS)
+df["tribe"] = df.tribe.map(lambda i: f"Tribe {i+1}" if i < 8 else "Other"); df["country"] = "Country " + df.country.astype(str).str.zfill(2)
     return D, df
 D, df = load(); P = D["props"]
 
