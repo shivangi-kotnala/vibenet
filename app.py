@@ -6,15 +6,24 @@ st.set_page_config("VibeNet", layout="wide")
 PAL = px.colors.qualitative.Bold
 COLS = ["id", "country", "tribe", "friends", "pagerank", "betweenness", "cross", "taste", "liked", "x", "y"]
 
+
 @st.cache_data
 def load():
     data_file = Path(__file__).resolve().parent / "vibenet.json"
-with data_file.open("r", encoding="utf-8") as f:
-    D = json.load(f)
-df = pd.DataFrame(D["nodes"], columns=COLS)
-df["tribe"] = df.tribe.map(lambda i: f"Tribe {i+1}" if i < 8 else "Other"); df["country"] = "Country " + df.country.astype(str).str.zfill(2)
- return D, df
-D, df = load(); P = D["props"]
+
+    with data_file.open("r", encoding="utf-8") as f:
+        D = json.load(f)
+
+    df = pd.DataFrame(D["nodes"], columns=COLS)
+    df["tribe"] = df["tribe"].map(
+        lambda i: f"Tribe {i+1}" if i < 8 else "Other"
+    )
+    df["country"] = "Country " + df["country"].astype(str).str.zfill(2)
+
+    return D, df
+
+D, df = load()
+P = D["props"]
 
 st.sidebar.header("Controls")
 color_by = st.sidebar.radio("Color by", ["tribe", "country"])
