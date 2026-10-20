@@ -13,7 +13,7 @@ with data_file.open("r", encoding="utf-8") as f:
     D = json.load(f)
 df = pd.DataFrame(D["nodes"], columns=COLS)
 df["tribe"] = df.tribe.map(lambda i: f"Tribe {i+1}" if i < 8 else "Other"); df["country"] = "Country " + df.country.astype(str).str.zfill(2)
-    return D, df
+return D, df
 D, df = load(); P = D["props"]
 
 st.sidebar.header("Controls")
