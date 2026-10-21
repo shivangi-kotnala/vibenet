@@ -174,8 +174,16 @@ with tabs[3]:
 
 with tabs[4]:
     st.caption("Taste overlap: the share of liked artists two listeners have in common; friends sit higher than random pairs.")
-    H = D["taste_hist"]; hd = pd.DataFrame({"overlap": H["bins"] * 2, "listener pairs": H["friends"] + H["strangers"], "pair type": ["friends"] * len(H["bins"]) + ["random strangers"] * len(H["bins"])})
-    st.plotly_chart(px.bar(hd, x="overlap", y="listener pairs", color="pair type", barmode="group", template="plotly_dark"), width="stretch")
+    H = D["taste_hist"]
+overlap = list(H["bins"]) * 2
+hd = pd.DataFrame({
+    "overlap": overlap,
+    "listener pairs": list(H["friends"]) + list(H["strangers"]),
+    "pair type": (
+        ["friends"] * len(H["bins"])
+        + ["random strangers"] * len(H["bins"])
+    )
+})st.plotly_chart(px.bar(hd, x="overlap", y="listener pairs", color="pair type", barmode="group", template="plotly_dark"), width="stretch")
     st.caption("Each listener's average taste overlap with friends against how many friends they have.")
     st.plotly_chart(px.scatter(df, x="friends", y="taste", color="tribe", color_discrete_map=TCOL, log_x=True, opacity=.5, template="plotly_dark"), width="stretch")
 
