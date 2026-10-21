@@ -183,7 +183,8 @@ hd = pd.DataFrame({
         ["friends"] * len(H["bins"])
         + ["random strangers"] * len(H["bins"])
     )
-})st.plotly_chart(px.bar(hd, x="overlap", y="listener pairs", color="pair type", barmode="group", template="plotly_dark"), width="stretch")
+})
+st.plotly_chart(px.bar(hd, x="overlap", y="listener pairs", color="pair type", barmode="group", template="plotly_dark"), width="stretch")
     st.caption("Each listener's average taste overlap with friends against how many friends they have.")
     st.plotly_chart(px.scatter(df, x="friends", y="taste", color="tribe", color_discrete_map=TCOL, log_x=True, opacity=.5, template="plotly_dark"), width="stretch")
 
